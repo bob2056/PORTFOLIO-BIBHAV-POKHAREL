@@ -78,13 +78,7 @@ export const Experience: React.FC = () => {
               <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-white dark:bg-slate-900 border-2 border-indigo-500 dark:border-cyan-400 group-hover:scale-125 transition-transform duration-200 shadow-sm" />
 
               {/* Card */}
-              <div
-                className={`p-6 sm:p-8 rounded-2xl border backdrop-blur-sm transition-all duration-300 ${
-                  exp.isPlaceholder
-                    ? "border-dashed border-slate-300 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/30"
-                    : "border-slate-200/80 dark:border-slate-800/80 bg-white/70 dark:bg-slate-900/60 shadow-sm hover:shadow-md hover:border-indigo-400/40 dark:hover:border-cyan-500/40"
-                }`}
-              >
+              <div className="p-6 sm:p-8 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white/70 dark:bg-slate-900/60 shadow-sm hover:shadow-md hover:border-indigo-400/40 dark:hover:border-cyan-500/40 backdrop-blur-sm transition-all duration-300">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                   <div>
                     <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">

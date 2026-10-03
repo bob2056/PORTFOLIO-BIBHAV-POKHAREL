@@ -8,43 +8,45 @@ This application showcases production-grade full-stack MERN web applications, ap
 
 ## 🌟 Key Features
 
-* **Modern Developer Aesthetic**: Sleek developer-first dark mode by default with light mode toggle, curated gradients, responsive typography (Inter & JetBrains Mono), and subtle micro-animations.
-* **Next.js App Router**: Built with the latest stable Next.js architecture, server-rendered components, dynamic routing (`/projects/[slug]`), and SEO metadata.
-* **RESTful TypeScript Backend**: Modular Node.js + Express + TypeScript service architecture with strict input validation, centralized error handling, and security hardening (`helmet`, `cors`, `morgan`).
-* **MongoDB & Mongoose**: Fully structured schemas with Mongoose models for Profile, Projects, Skills, Contact Messages, and Admins.
-* **Live GitHub Synchronization**: Backend service queries GitHub's REST API for user `bob2056` (`https://github.com/bob2056`), rendering live stars, forks, languages, and repo links with language filtering and resilient offline caching.
-* **Protected Admin Portal (`/admin`)**:
-  * Secure JWT authentication (bcrypt password hashing, token expiration, HTTP authorization middleware).
-  * Profile management: edit name, bio, titles, social links, and placeholders.
-  * Multer image uploads: upload and change profile photo or project banners with filetype validation (JPG, PNG, WEBP) and size limits (max 5MB).
-  * Projects CRUD: add new projects, update existing projects, or delete them.
-  * Skills CRUD: manage skills with proficiency level sliders and category groupings.
-  * Recruiter Inquiries Inbox: read incoming contact messages, mark as read, and delete messages.
-* **Zero-Flicker Fallbacks**: When backend or MongoDB is offline during initial startup, the frontend seamlessly renders complete, authentic default data for Bibhav without broken layouts or blank screens.
+- **Modern Developer Aesthetic**: Sleek developer-first dark mode by default with light mode toggle, curated gradients, responsive typography (Inter & JetBrains Mono), and subtle micro-animations.
+- **Next.js App Router**: Built with the latest stable Next.js architecture, server-rendered components, dynamic routing (`/projects/[slug]`), and SEO metadata.
+- **RESTful TypeScript Backend**: Modular Node.js + Express + TypeScript service architecture with strict input validation, centralized error handling, and security hardening (`helmet`, `cors`, `morgan`).
+- **MongoDB & Mongoose**: Fully structured schemas with Mongoose models for Profile, Projects, Skills, Contact Messages, and Admins.
+- **Live GitHub Synchronization**: Backend service queries GitHub's REST API for user `bob2056` (`https://github.com/bob2056`), rendering live stars, forks, languages, and repo links with language filtering and resilient offline caching.
+- **Protected Admin Portal (`/admin`)**:
+  - Secure JWT authentication (bcrypt password hashing, token expiration, HTTP authorization middleware).
+  - Profile management: edit name, bio, titles, social links, and placeholders.
+  - Multer image uploads: upload and change profile photo or project banners with filetype validation (JPG, PNG, WEBP) and size limits (max 5MB).
+  - Projects CRUD: add new projects, update existing projects, or delete them.
+  - Skills CRUD: manage skills with proficiency level sliders and category groupings.
+  - Recruiter Inquiries Inbox: read incoming contact messages, mark as read, and delete messages.
+- **Zero-Flicker Fallbacks**: When backend or MongoDB is offline during initial startup, the frontend seamlessly renders complete, authentic default data for Bibhav without broken layouts or blank screens.
 
 ---
 
 ## 🛠️ Technology Stack
 
 ### Frontend
-* **Framework**: Next.js (App Router)
-* **Library**: React & React DOM
-* **Language**: TypeScript
-* **Styling**: Tailwind CSS
-* **HTTP Client**: Centralized Axios with request/response interceptors
-* **Icons**: Lucide React
-* **Package Manager**: `pnpm`
+
+- **Framework**: Next.js (App Router)
+- **Library**: React & React DOM
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **HTTP Client**: Centralized Axios with request/response interceptors
+- **Icons**: Lucide React
+- **Package Manager**: `pnpm`
 
 ### Backend
-* **Runtime**: Node.js
-* **Framework**: Express.js
-* **Language**: TypeScript
-* **Database**: MongoDB with Mongoose ODM
-* **Security & Utility**: Helmet, CORS, Morgan, Dotenv
-* **Authentication**: JSON Web Tokens (`jsonwebtoken`) & `bcryptjs`
-* **File Uploads**: `multer` (with diskStorage, mimetype filter, and size restrictions)
-* **Validation**: `express-validator`
-* **Development**: `nodemon` & `ts-node`
+
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Language**: TypeScript
+- **Database**: MongoDB with Mongoose ODM
+- **Security & Utility**: Helmet, CORS, Morgan, Dotenv
+- **Authentication**: JSON Web Tokens (`jsonwebtoken`) & `bcryptjs`
+- **File Uploads**: `multer` (with diskStorage, mimetype filter, and size restrictions)
+- **Validation**: `express-validator`
+- **Development**: `nodemon` & `ts-node`
 
 ---
 
@@ -137,13 +139,15 @@ bibhav-portfolio/
 ## 🚀 Getting Started Locally
 
 ### Prerequisites
-* **Node.js**: v18+ (tested on Node v26)
-* **pnpm**: `pnpm -v` (or install via `npm i -g pnpm`)
-* **MongoDB**: A local MongoDB instance (`mongodb://127.0.0.1:27017`) or a free [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) connection string.
+
+- **Node.js**: v18+ (tested on Node v26)
+- **pnpm**: `pnpm -v` (or install via `npm i -g pnpm`)
+- **MongoDB**: A local MongoDB instance (`mongodb://127.0.0.1:27017`) or a free [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) connection string.
 
 ---
 
 ### Step 1: Clone the Repository
+
 ```bash
 git clone https://github.com/bob2056/bibhav-portfolio.git
 cd bibhav-portfolio
@@ -154,20 +158,23 @@ cd bibhav-portfolio
 ### Step 2: Backend Setup & Seeding
 
 1. Navigate to the backend directory:
+
    ```bash
    cd backend
    ```
 
 2. Install backend dependencies:
+
    ```bash
    pnpm install
    ```
 
 3. Configure environment variables in `backend/.env`:
+
    ```env
    PORT=5000
-  
-   JWT_SECRET=super_secret_jwt_key_bibhav_portfolio_2026
+   MONGODB_URI=<your-local-or-Atlas-connection-string>
+   JWT_SECRET=<generate-a-long-random-secret>
    GITHUB_TOKEN=
    GITHUB_USERNAME=bob2056
    CLIENT_URL=http://localhost:3000
@@ -175,38 +182,46 @@ cd bibhav-portfolio
    ```
 
 4. Seed the database with default data and create the initial Admin account:
+
    ```bash
    pnpm seed
    ```
-   > **Note**: This automatically creates the default Admin user (`admin@bibhavpokharel.com` / `ChangeMe123!`), populates Bibhav's profile, default projects, and skills.
+
+   > **Note**: This creates the default Admin user and populates Bibhav's profile, default projects, and skills. Set a secure admin password before using the account.
 
 5. Start the backend development server:
+
    ```bash
    pnpm dev
    ```
-   * The API runs at: `http://localhost:5000`
-   * Health Check: `http://localhost:5000/api/health`
+
+   - The API runs at: `http://localhost:5000`
+   - Health Check: `http://localhost:5000/api/health`
 
 ---
 
 ### Step 3: Frontend Setup & Launch
 
 1. Open a new terminal and navigate to `frontend`:
+
    ```bash
    cd frontend
    ```
 
 2. Install dependencies:
+
    ```bash
    pnpm install
    ```
 
 3. Ensure `frontend/.env.local` points to your backend:
+
    ```env
    NEXT_PUBLIC_API_URL=http://localhost:5000/api
    ```
 
 4. Start the Next.js development server:
+
    ```bash
    pnpm dev
    ```
@@ -221,13 +236,13 @@ cd bibhav-portfolio
 ## 🔑 Administrative Access
 
 Visit:
+
 ```text
 http://localhost:3000/admin
 ```
 
-
-
 ### Admin Capabilities:
+
 1. **Profile**: Update full name, bio, job titles, phone, CV link, and upload a new profile photo directly through the Multer file uploader.
 2. **Projects**: Add, edit, or delete featured projects.
 3. **Skills**: Add or adjust proficiency levels and categories.
@@ -237,37 +252,38 @@ http://localhost:3000/admin
 
 ## 📡 REST API Documentation
 
-| Method | Endpoint | Protection | Description |
-| :--- | :--- | :--- | :--- |
-| `GET` | `/api/health` | Public | Server health status |
-| `GET` | `/api/profile` | Public | Get Bibhav's professional profile |
-| `PUT` | `/api/profile` | **Admin JWT** | Update profile information |
-| `POST` | `/api/profile/upload-photo` | **Admin JWT** | Upload profile picture (`multipart/form-data`) |
-| `GET` | `/api/projects` | Public | List all projects (supports `?category=`, `?featured=`) |
-| `GET` | `/api/projects/:slug` | Public | Get project details by unique slug |
-| `POST` | `/api/projects` | **Admin JWT** | Create a new project |
-| `PUT` | `/api/projects/:id` | **Admin JWT** | Update an existing project |
-| `DELETE` | `/api/projects/:id` | **Admin JWT** | Delete a project |
-| `GET` | `/api/skills` | Public | List technical skills (supports `?category=`) |
-| `POST` | `/api/skills` | **Admin JWT** | Add a new technical skill |
-| `PUT` | `/api/skills/:id` | **Admin JWT** | Update a technical skill |
-| `DELETE` | `/api/skills/:id` | **Admin JWT** | Delete a technical skill |
-| `POST` | `/api/contact` | Public | Submit a contact form message |
-| `GET` | `/api/contact` | **Admin JWT** | Get all recruiter/client contact messages |
-| `PUT` | `/api/contact/:id/status` | **Admin JWT** | Update message status (`read`/`unread`/`replied`) |
-| `DELETE` | `/api/contact/:id` | **Admin JWT** | Delete a contact message |
-| `GET` | `/api/github/repos` | Public | Fetch live public GitHub repos for `bob2056` |
-| `POST` | `/api/auth/login` | Public | Authenticate admin and receive JWT token |
-| `GET` | `/api/auth/me` | **Admin JWT** | Verify active session |
+| Method   | Endpoint                    | Protection    | Description                                             |
+| :------- | :-------------------------- | :------------ | :------------------------------------------------------ |
+| `GET`    | `/api/health`               | Public        | Server health status                                    |
+| `GET`    | `/api/profile`              | Public        | Get Bibhav's professional profile                       |
+| `PUT`    | `/api/profile`              | **Admin JWT** | Update profile information                              |
+| `POST`   | `/api/profile/upload-photo` | **Admin JWT** | Upload profile picture (`multipart/form-data`)          |
+| `GET`    | `/api/projects`             | Public        | List all projects (supports `?category=`, `?featured=`) |
+| `GET`    | `/api/projects/:slug`       | Public        | Get project details by unique slug                      |
+| `POST`   | `/api/projects`             | **Admin JWT** | Create a new project                                    |
+| `PUT`    | `/api/projects/:id`         | **Admin JWT** | Update an existing project                              |
+| `DELETE` | `/api/projects/:id`         | **Admin JWT** | Delete a project                                        |
+| `GET`    | `/api/skills`               | Public        | List technical skills (supports `?category=`)           |
+| `POST`   | `/api/skills`               | **Admin JWT** | Add a new technical skill                               |
+| `PUT`    | `/api/skills/:id`           | **Admin JWT** | Update a technical skill                                |
+| `DELETE` | `/api/skills/:id`           | **Admin JWT** | Delete a technical skill                                |
+| `POST`   | `/api/contact`              | Public        | Submit a contact form message                           |
+| `GET`    | `/api/contact`              | **Admin JWT** | Get all recruiter/client contact messages               |
+| `PUT`    | `/api/contact/:id/status`   | **Admin JWT** | Update message status (`read`/`unread`/`replied`)       |
+| `DELETE` | `/api/contact/:id`          | **Admin JWT** | Delete a contact message                                |
+| `GET`    | `/api/github/repos`         | Public        | Fetch live public GitHub repos for `bob2056`            |
+| `POST`   | `/api/auth/login`           | Public        | Authenticate admin and receive JWT token                |
+| `GET`    | `/api/auth/me`              | **Admin JWT** | Verify active session                                   |
 
 ---
 
 ## 🌐 Connecting Live GitHub
 
 The backend integrates directly with GitHub:
-* Username configured: `bob2056` (`https://github.com/bob2056`)
-* By default, it accesses public repositories without requiring a token.
-* If you want to increase GitHub API rate limits (from 60/hr to 5,000/hr), generate a personal access token at [github.com/settings/tokens](https://github.com/settings/tokens) (read-only `public_repo` scope) and set:
+
+- Username configured: `bob2056` (`https://github.com/bob2056`)
+- By default, it accesses public repositories without requiring a token.
+- If you want to increase GitHub API rate limits (from 60/hr to 5,000/hr), generate a personal access token at [github.com/settings/tokens](https://github.com/settings/tokens) (read-only `public_repo` scope) and set:
   ```env
   GITHUB_TOKEN=ghp_your_token_here
   ```
@@ -277,25 +293,53 @@ The backend integrates directly with GitHub:
 
 ## 🚢 Deployment Guide
 
-### Deploying Frontend to Vercel
-1. Push your repository to GitHub (`bob2056/bibhav-portfolio`).
-2. Log into [Vercel](https://vercel.com) and click **Add New Project**.
-3. Select the repository and set the **Root Directory** to `frontend`.
-4. Add the Environment Variable:
-   * `NEXT_PUBLIC_API_URL`: Your deployed backend URL (e.g. `https://api.yourdomain.com/api`).
-5. Click **Deploy**.
+Deploy the API first so its public URL is available to the frontend.
 
-### Deploying Backend to Render / Railway / DigitalOcean
-1. In [Render](https://render.com) or [Railway](https://railway.app), create a new **Web Service**.
-2. Select your repository with the **Root Directory** set to `backend`.
-3. Set Build Command: `pnpm install && pnpm build`.
-4. Set Start Command: `node dist/server.js`.
-5. Add Environment Variables:
-   * `PORT`: `5000` (or provided by host)
-   * `MONGODB_URI`: Your MongoDB Atlas URI
-   * `JWT_SECRET`: A secure random secret key
-   * `CLIENT_URL`: Your Vercel frontend URL
-   * `NODE_ENV`: `production`
+### 1. Prepare MongoDB
+
+1. Create a MongoDB Atlas cluster and database user.
+2. Configure Atlas Network Access to allow connections from your Render service. For a quick setup, Atlas can allow `0.0.0.0/0`; use a more restrictive allowlist when practical.
+3. Copy the Atlas connection string. Replace its placeholder username, password, and database name before adding it to Render.
+
+### 2. Deploy the Backend to Render
+
+1. Push the repository to GitHub and create a **Web Service** in [Render](https://render.com) using that repository.
+2. Set **Root Directory** to `backend` and use the Node runtime.
+3. Set **Build Command** to `pnpm install --frozen-lockfile && pnpm build`.
+4. Set **Start Command** to `pnpm start`.
+5. Add these environment variables in Render:
+
+   | Name                                                              | Value                                                                 |
+   | :---------------------------------------------------------------- | :-------------------------------------------------------------------- |
+   | `NODE_ENV`                                                        | `production`                                                          |
+   | `MONGODB_URI`                                                     | Your MongoDB Atlas connection string                                  |
+   | `JWT_SECRET`                                                      | A newly generated, long random secret                                 |
+   | `CLIENT_URL`                                                      | Your Vercel production URL, added after frontend deployment           |
+   | `GITHUB_USERNAME`                                                 | `bob2056` (optional; already the default)                             |
+   | `GITHUB_TOKEN`                                                    | A GitHub token (optional)                                             |
+   | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS` | Your mail provider settings; required for contact-form email delivery |
+
+   Do not set `PORT`; Render provides it. After deployment, check `https://<render-service>.onrender.com/api/health`.
+
+### 3. Deploy the Frontend to Vercel
+
+1. Create a project in [Vercel](https://vercel.com) from the same GitHub repository.
+2. Set **Root Directory** to `frontend`. Vercel should detect Next.js and the `pnpm` lockfile automatically.
+3. Add the environment variable `NEXT_PUBLIC_API_URL` with value `https://<render-service>.onrender.com/api`.
+4. Deploy the project.
+5. Copy the production URL assigned by Vercel, set it as Render's `CLIENT_URL`, and redeploy the Render service. This allows the API's CORS policy to accept requests from the production frontend.
+
+### 4. First Login and Uploaded Images
+
+When the database has no admin account, the first successful login request creates one using the email and password submitted on the admin page. Choose a strong password and perform this setup yourself. Do not run `pnpm seed` against production as-is because it creates an admin with a hard-coded password.
+
+Admin image uploads are stored in `backend/uploads`. Render's default filesystem is ephemeral, so uploaded images can disappear when the service is replaced or redeployed. Before relying on admin uploads, configure persistent storage mounted at the upload directory or move uploads to object storage such as S3 or Cloudinary.
+
+### 5. Verify the Deployment
+
+1. Open the Vercel site and check that profile, projects, skills, and GitHub data load.
+2. Submit a contact form and verify both the database record and email delivery. SMTP settings are needed for email delivery.
+3. Sign in at `/admin` with the first-admin credentials and verify that protected API requests work.
 
 ---
 
@@ -319,7 +363,8 @@ The backend integrates directly with GitHub:
 ## 👤 Author
 
 **Bibhav Pokharel**
-* **Education**: MSc Advanced Computing (Keele University / British College) & BSc CSIT (Tribhuvan University)
-* **GitHub**: [@bob2056](https://github.com/bob2056)
-* **LinkedIn**: [Bibhav Pokharel](https://www.linkedin.com/in/bibhav-pokharel-47669a31a/)
-* **Portfolio**: [https://bibhavpokharel.com](https://bibhavpokharel.com)
+
+- **Education**: MSc Advanced Computing (Keele University / British College) & BSc CSIT (Tribhuvan University)
+- **GitHub**: [@bob2056](https://github.com/bob2056)
+- **LinkedIn**: [Bibhav Pokharel](https://www.linkedin.com/in/bibhav-pokharel-47669a31a/)
+- **Portfolio**: [https://bibhavpokharel.com](https://bibhavpokharel.com)
