@@ -166,7 +166,7 @@ cd bibhav-portfolio
 3. Configure environment variables in `backend/.env`:
    ```env
    PORT=5000
-   MONGODB_URI=mongodb://127.0.0.1:27017/bibhav_portfolio
+  
    JWT_SECRET=super_secret_jwt_key_bibhav_portfolio_2026
    GITHUB_TOKEN=
    GITHUB_USERNAME=bob2056
@@ -225,8 +225,7 @@ Visit:
 http://localhost:3000/admin
 ```
 
-* **Default Email**: `admin@bibhavpokharel.com`
-* **Default Password**: `ChangeMe123!`
+
 
 ### Admin Capabilities:
 1. **Profile**: Update full name, bio, job titles, phone, CV link, and upload a new profile photo directly through the Multer file uploader.
