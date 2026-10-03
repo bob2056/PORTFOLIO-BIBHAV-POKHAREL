@@ -44,7 +44,7 @@ export const submitContact = async (
 
     res.status(201).json({
       success: true,
-      message: "Your message has been sent to pokharelbibhav58@gmail.com.",
+      message: "Your message has been sent successfully.",
       data: {
         id: contact._id,
         name: contact.name,

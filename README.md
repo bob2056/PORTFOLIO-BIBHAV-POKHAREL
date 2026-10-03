@@ -179,6 +179,7 @@ cd bibhav-portfolio
    GITHUB_USERNAME=bob2056
    CLIENT_URL=http://localhost:3000
    NODE_ENV=development
+   CONTACT_EMAIL=bibhav.bale@gmail.com
    ```
 
 4. Seed the database with default data and create the initial Admin account:
@@ -315,6 +316,7 @@ Deploy the API first so its public URL is available to the frontend.
    | `MONGODB_URI`                                                     | Your MongoDB Atlas connection string                                  |
    | `JWT_SECRET`                                                      | A newly generated, long random secret                                 |
    | `CLIENT_URL`                                                      | Your Vercel production URL, added after frontend deployment           |
+   | `CONTACT_EMAIL`                                                   | `bibhav.bale@gmail.com`                                               |
    | `GITHUB_USERNAME`                                                 | `bob2056` (optional; already the default)                             |
    | `GITHUB_TOKEN`                                                    | A GitHub token (optional)                                             |
    | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS` | Your mail provider settings; required for contact-form email delivery |

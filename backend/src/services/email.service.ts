@@ -35,7 +35,7 @@ export const sendContactEmail = async ({
 
   await transporter.sendMail({
     from: { name: "Portfolio Contact Form", address: user },
-    to: "pokharelbibhav58@gmail.com",
+    to: process.env.CONTACT_EMAIL || "bibhav.bale@gmail.com",
     replyTo: email,
     subject: `Portfolio contact: ${subject}`,
     text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n${message}`,

@@ -1,6 +1,6 @@
-import React from 'react';
-import Link from 'next/link';
-import { Github, Linkedin, Mail, ArrowUp, Heart, Terminal } from 'lucide-react';
+import React from "react";
+import Link from "next/link";
+import { Github, Linkedin, Mail, ArrowUp, Heart, Terminal } from "lucide-react";
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -20,8 +20,10 @@ export const Footer: React.FC = () => {
               </span>
             </div>
             <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed max-w-md">
-              MSc Advanced Computing student at Keele University / British College & BSc CSIT graduate. 
-              Aspiring Software & Full-Stack Developer passionate about scalable web architecture, clean engineering, and intelligent systems.
+              MSc Advanced Computing student at Keele University / British
+              College & BSc CSIT graduate. Aspiring Software & Full-Stack
+              Developer passionate about scalable web architecture, clean
+              engineering, and intelligent systems.
             </p>
             <div className="flex items-center space-x-3 pt-2">
               <a
@@ -43,7 +45,7 @@ export const Footer: React.FC = () => {
                 <Linkedin className="w-4 h-4" />
               </a>
               <a
-                href="mailto:bibhav.pokharel@example.com"
+                href="mailto:bibhav.bale@gmail.com"
                 aria-label="Email Me"
                 className="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:text-rose-500 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
               >
@@ -108,17 +110,17 @@ export const Footer: React.FC = () => {
             </h4>
             <div className="flex flex-wrap gap-1.5">
               {[
-                'Next.js',
-                'React',
-                'TypeScript',
-                'Node.js',
-                'Express',
-                'MongoDB',
-                'Python',
-                'Flask',
-                'Machine Learning',
-                'Scikit-learn',
-                'Tailwind CSS',
+                "Next.js",
+                "React",
+                "TypeScript",
+                "Node.js",
+                "Express",
+                "MongoDB",
+                "Python",
+                "Flask",
+                "Machine Learning",
+                "Scikit-learn",
+                "Tailwind CSS",
               ].map((tech) => (
                 <span
                   key={tech}

@@ -109,10 +109,10 @@ export const Contact: React.FC = () => {
                     Email
                   </div>
                   <a
-                    href="mailto:pokharelbibhav58@gmail.com"
+                    href="mailto:bibhav.bale@gmail.com"
                     className="text-sm font-medium text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-cyan-400 transition-colors"
                   >
-                    pokharelbibhav58@gmail.com
+                    bibhav.bale@gmail.com
                   </a>
                 </div>
               </div>
@@ -178,8 +178,8 @@ export const Contact: React.FC = () => {
                   Message Sent Successfully!
                 </h4>
                 <p className="text-sm text-slate-600 dark:text-slate-300">
-                  Your message has been sent to pokharelbibhav58@gmail.com. I
-                  will get back to you as soon as possible.
+                  Your message has been sent. I will get back to you as soon as
+                  possible.
                 </p>
                 <button
                   onClick={() => setSuccess(false)}
