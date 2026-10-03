@@ -5,7 +5,6 @@ import {
   Mail,
   Send,
   MapPin,
-  Phone,
   Github,
   Linkedin,
   CheckCircle2,
@@ -115,20 +114,6 @@ export const Contact: React.FC = () => {
                   >
                     pokharelbibhav58@gmail.com
                   </a>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-slate-800 flex items-center justify-center text-indigo-600 dark:text-cyan-400 shrink-0">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-xs font-mono text-slate-400 uppercase tracking-wider">
-                    Phone
-                  </div>
-                  <span className="text-sm font-medium text-slate-900 dark:text-white font-mono">
-                    9860454291
-                  </span>
                 </div>
               </div>
 
