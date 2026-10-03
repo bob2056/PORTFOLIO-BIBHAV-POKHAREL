@@ -45,8 +45,8 @@ export default function AdminPage() {
   >("profile");
 
   // Login form state
-  const [email, setEmail] = useState("admin@bibhavpokharel.com");
-  const [password, setPassword] = useState("ChangeMe123!");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
 

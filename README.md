@@ -175,6 +175,8 @@ cd bibhav-portfolio
    PORT=5000
    MONGODB_URI=<your-local-or-Atlas-connection-string>
    JWT_SECRET=<generate-a-long-random-secret>
+   ADMIN_EMAIL=<your-admin-email>
+   ADMIN_PASSWORD=<unique-password-at-least-12-characters>
    GITHUB_TOKEN=
    GITHUB_USERNAME=bob2056
    CLIENT_URL=http://localhost:3000
@@ -182,13 +184,13 @@ cd bibhav-portfolio
    CONTACT_EMAIL=bibhav.bale@gmail.com
    ```
 
-4. Seed the database with default data and create the initial Admin account:
+4. Seed the database with default data and create the initial Admin account using `ADMIN_EMAIL` and `ADMIN_PASSWORD` from your private `.env`:
 
    ```bash
    pnpm seed
    ```
 
-   > **Note**: This creates the default Admin user and populates Bibhav's profile, default projects, and skills. Set a secure admin password before using the account.
+   > **Note**: No default admin credentials are created or logged. Keep the seed credentials private.
 
 5. Start the backend development server:
 
@@ -315,6 +317,7 @@ Deploy the API first so its public URL is available to the frontend.
    | `NODE_ENV`                                                        | `production`                                                          |
    | `MONGODB_URI`                                                     | Your MongoDB Atlas connection string                                  |
    | `JWT_SECRET`                                                      | A newly generated, long random secret                                 |
+   | `ADMIN_EMAIL`, `ADMIN_PASSWORD`                                   | One-time credentials for the initial database seed                    |
    | `CLIENT_URL`                                                      | Your Vercel production URL, added after frontend deployment           |
    | `CONTACT_EMAIL`                                                   | `bibhav.bale@gmail.com`                                               |
    | `GITHUB_USERNAME`                                                 | `bob2056` (optional; already the default)                             |
@@ -333,7 +336,7 @@ Deploy the API first so its public URL is available to the frontend.
 
 ### 4. First Login and Uploaded Images
 
-When the database has no admin account, the first successful login request creates one using the email and password submitted on the admin page. Choose a strong password and perform this setup yourself. Do not run `pnpm seed` against production as-is because it creates an admin with a hard-coded password.
+The login endpoint never creates an admin account. To initialize an empty production database, run `pnpm seed` once with `MONGODB_URI`, `ADMIN_EMAIL`, and `ADMIN_PASSWORD` set privately. After seeding, remove `ADMIN_PASSWORD` from the hosting environment if it was added there. Existing admin accounts are not changed by seeding.
 
 Admin image uploads are stored in `backend/uploads`. Render's default filesystem is ephemeral, so uploaded images can disappear when the service is replaced or redeployed. Before relying on admin uploads, configure persistent storage mounted at the upload directory or move uploads to object storage such as S3 or Cloudinary.
 
