@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Lock,
   User,
@@ -20,19 +20,33 @@ import {
   Shield,
   Eye,
   Check,
-} from 'lucide-react';
-import api from '@/lib/axios';
-import { Profile, Project, Skill, ContactMessage, ProjectCategory, SkillCategory } from '@/types';
-import { FALLBACK_PROFILE, FALLBACK_PROJECTS, FALLBACK_SKILLS, formatDate } from '@/lib/utils';
+} from "lucide-react";
+import api from "@/lib/axios";
+import {
+  Profile,
+  Project,
+  Skill,
+  ContactMessage,
+  ProjectCategory,
+  SkillCategory,
+} from "@/types";
+import {
+  FALLBACK_PROFILE,
+  FALLBACK_PROJECTS,
+  FALLBACK_SKILLS,
+  formatDate,
+} from "@/lib/utils";
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [token, setToken] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'profile' | 'projects' | 'skills' | 'messages'>('profile');
+  const [activeTab, setActiveTab] = useState<
+    "profile" | "projects" | "skills" | "messages"
+  >("profile");
 
   // Login form state
-  const [email, setEmail] = useState('admin@bibhavpokharel.com');
-  const [password, setPassword] = useState('ChangeMe123!');
+  const [email, setEmail] = useState("admin@bibhavpokharel.com");
+  const [password, setPassword] = useState("ChangeMe123!");
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
 
@@ -58,15 +72,15 @@ export default function AdminPage() {
     featured: boolean;
     image: string;
   }>({
-    title: '',
-    category: 'Full Stack',
-    shortDescription: '',
-    fullDescription: '',
-    technologies: '',
-    githubUrl: '',
-    liveUrl: '',
+    title: "",
+    category: "Full Stack",
+    shortDescription: "",
+    fullDescription: "",
+    technologies: "",
+    githubUrl: "",
+    liveUrl: "",
     featured: false,
-    image: '/project-placeholder.jpg',
+    image: "/project-placeholder.jpg",
   });
 
   // Skills state
@@ -79,10 +93,10 @@ export default function AdminPage() {
     icon: string;
     order: number;
   }>({
-    name: '',
-    category: 'Frontend',
+    name: "",
+    category: "Frontend",
     level: 80,
-    icon: 'code',
+    icon: "code",
     order: 0,
   });
 
@@ -91,16 +105,19 @@ export default function AdminPage() {
   const [messagesLoading, setMessagesLoading] = useState(false);
 
   // Feedback notifications
-  const [alert, setAlert] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [alert, setAlert] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
-  const showAlert = (type: 'success' | 'error', message: string) => {
+  const showAlert = (type: "success" | "error", message: string) => {
     setAlert({ type, message });
     setTimeout(() => setAlert(null), 5000);
   };
 
   // Check existing token on mount
   useEffect(() => {
-    const storedToken = localStorage.getItem('bibhav_admin_token');
+    const storedToken = localStorage.getItem("bibhav_admin_token");
     if (storedToken) {
       setToken(storedToken);
       verifyToken(storedToken);
@@ -109,7 +126,7 @@ export default function AdminPage() {
 
   const verifyToken = async (jwtToken: string) => {
     try {
-      const res = await api.get('/auth/me');
+      const res = await api.get("/auth/me");
       if (res.data?.success) {
         setIsAuthenticated(true);
         loadAdminData();
@@ -127,21 +144,24 @@ export default function AdminPage() {
     setLoginError(null);
 
     try {
-      const res = await api.post('/auth/login', { email, password });
+      const res = await api.post("/auth/login", { email, password });
       if (res.data?.success && res.data.token) {
         const receivedToken = res.data.token;
-        localStorage.setItem('bibhav_admin_token', receivedToken);
+        localStorage.setItem("bibhav_admin_token", receivedToken);
         setToken(receivedToken);
         setIsAuthenticated(true);
-        showAlert('success', 'Logged in successfully as Administrator.');
+        showAlert("success", "Logged in successfully as Administrator.");
         loadAdminData();
       } else {
-        setLoginError(res.data?.message || 'Login failed. Please verify credentials.');
+        setLoginError(
+          res.data?.message || "Login failed. Please verify credentials.",
+        );
       }
     } catch (err: unknown) {
       const errorObj = err as { message?: string };
       setLoginError(
-        errorObj.message || 'Authentication failed. Please verify backend is running on http://localhost:5000.'
+        errorObj.message ||
+          "Authentication failed. Please verify backend is running on http://localhost:5000.",
       );
     } finally {
       setLoginLoading(false);
@@ -149,7 +169,7 @@ export default function AdminPage() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('bibhav_admin_token');
+    localStorage.removeItem("bibhav_admin_token");
     setToken(null);
     setIsAuthenticated(false);
   };
@@ -164,7 +184,7 @@ export default function AdminPage() {
   // Profile API
   const loadProfile = async () => {
     try {
-      const res = await api.get('/profile');
+      const res = await api.get("/profile");
       if (res.data?.success && res.data.data) {
         setProfile(res.data.data);
       }
@@ -184,27 +204,32 @@ export default function AdminPage() {
       if (profileImageFile) {
         const formData = new FormData();
         Object.entries(profile).forEach(([key, val]) => {
-          if (val !== undefined && key !== '_id' && key !== 'createdAt' && key !== 'updatedAt') {
+          if (
+            val !== undefined &&
+            key !== "_id" &&
+            key !== "createdAt" &&
+            key !== "updatedAt"
+          ) {
             formData.append(key, String(val));
           }
         });
-        formData.append('image', profileImageFile);
+        formData.append("image", profileImageFile);
 
-        res = await api.put('/profile', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
+        res = await api.put("/profile", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
       } else {
-        res = await api.put('/profile', profile);
+        res = await api.put("/profile", profile);
       }
 
       if (res.data?.success) {
         setProfile(res.data.data);
         setProfileImageFile(null);
-        showAlert('success', 'Profile updated successfully!');
+        showAlert("success", "Profile updated successfully!");
       }
     } catch (err: unknown) {
       const errorObj = err as { message?: string };
-      showAlert('error', errorObj.message || 'Failed to update profile.');
+      showAlert("error", errorObj.message || "Failed to update profile.");
     } finally {
       setProfileSaving(false);
     }
@@ -214,7 +239,7 @@ export default function AdminPage() {
   const loadProjects = async () => {
     setProjectsLoading(true);
     try {
-      const res = await api.get('/projects');
+      const res = await api.get("/projects");
       if (res.data?.success && Array.isArray(res.data.data)) {
         setProjects(res.data.data);
       }
@@ -230,7 +255,7 @@ export default function AdminPage() {
     const payload = {
       ...projectForm,
       technologies: projectForm.technologies
-        .split(',')
+        .split(",")
         .map((t) => t.trim())
         .filter(Boolean),
     };
@@ -239,21 +264,21 @@ export default function AdminPage() {
       if (isEditingProject && projectForm._id) {
         const res = await api.put(`/projects/${projectForm._id}`, payload);
         if (res.data?.success) {
-          showAlert('success', 'Project updated successfully.');
+          showAlert("success", "Project updated successfully.");
           loadProjects();
           resetProjectForm();
         }
       } else {
-        const res = await api.post('/projects', payload);
+        const res = await api.post("/projects", payload);
         if (res.data?.success) {
-          showAlert('success', 'Project added successfully.');
+          showAlert("success", "Project added successfully.");
           loadProjects();
           resetProjectForm();
         }
       }
     } catch (err: unknown) {
       const errorObj = err as { message?: string };
-      showAlert('error', errorObj.message || 'Failed to save project.');
+      showAlert("error", errorObj.message || "Failed to save project.");
     }
   };
 
@@ -265,47 +290,48 @@ export default function AdminPage() {
       category: p.category,
       shortDescription: p.shortDescription,
       fullDescription: p.fullDescription,
-      technologies: p.technologies.join(', '),
-      githubUrl: p.githubUrl || '',
-      liveUrl: p.liveUrl || '',
+      technologies: p.technologies.join(", "),
+      githubUrl: p.githubUrl || "",
+      liveUrl: p.liveUrl || "",
       featured: p.featured,
-      image: p.image || '/project-placeholder.jpg',
+      image: p.image || "/project-placeholder.jpg",
     });
   };
 
   const handleDeleteProject = async (id?: string) => {
-    if (!id || !confirm('Are you sure you want to delete this project?')) return;
+    if (!id || !confirm("Are you sure you want to delete this project?"))
+      return;
     try {
       const res = await api.delete(`/projects/${id}`);
       if (res.data?.success) {
-        showAlert('success', 'Project removed.');
+        showAlert("success", "Project removed.");
         loadProjects();
       }
     } catch (err: unknown) {
       const errorObj = err as { message?: string };
-      showAlert('error', errorObj.message || 'Failed to delete project.');
+      showAlert("error", errorObj.message || "Failed to delete project.");
     }
   };
 
   const resetProjectForm = () => {
     setIsEditingProject(false);
     setProjectForm({
-      title: '',
-      category: 'Full Stack',
-      shortDescription: '',
-      fullDescription: '',
-      technologies: '',
-      githubUrl: '',
-      liveUrl: '',
+      title: "",
+      category: "Full Stack",
+      shortDescription: "",
+      fullDescription: "",
+      technologies: "",
+      githubUrl: "",
+      liveUrl: "",
       featured: false,
-      image: '/project-placeholder.jpg',
+      image: "/project-placeholder.jpg",
     });
   };
 
   // Skills API
   const loadSkills = async () => {
     try {
-      const res = await api.get('/skills');
+      const res = await api.get("/skills");
       if (res.data?.success && Array.isArray(res.data.data)) {
         setSkills(res.data.data);
       }
@@ -320,44 +346,44 @@ export default function AdminPage() {
       if (skillForm._id) {
         const res = await api.put(`/skills/${skillForm._id}`, skillForm);
         if (res.data?.success) {
-          showAlert('success', 'Skill updated.');
+          showAlert("success", "Skill updated.");
           loadSkills();
           resetSkillForm();
         }
       } else {
-        const res = await api.post('/skills', skillForm);
+        const res = await api.post("/skills", skillForm);
         if (res.data?.success) {
-          showAlert('success', 'Skill added.');
+          showAlert("success", "Skill added.");
           loadSkills();
           resetSkillForm();
         }
       }
     } catch (err: unknown) {
       const errorObj = err as { message?: string };
-      showAlert('error', errorObj.message || 'Failed to save skill.');
+      showAlert("error", errorObj.message || "Failed to save skill.");
     }
   };
 
   const handleDeleteSkill = async (id?: string) => {
-    if (!id || !confirm('Are you sure you want to delete this skill?')) return;
+    if (!id || !confirm("Are you sure you want to delete this skill?")) return;
     try {
       const res = await api.delete(`/skills/${id}`);
       if (res.data?.success) {
-        showAlert('success', 'Skill deleted.');
+        showAlert("success", "Skill deleted.");
         loadSkills();
       }
     } catch (err: unknown) {
       const errorObj = err as { message?: string };
-      showAlert('error', errorObj.message || 'Failed to delete skill.');
+      showAlert("error", errorObj.message || "Failed to delete skill.");
     }
   };
 
   const resetSkillForm = () => {
     setSkillForm({
-      name: '',
-      category: 'Frontend',
+      name: "",
+      category: "Frontend",
       level: 80,
-      icon: 'code',
+      icon: "code",
       order: 0,
     });
   };
@@ -366,7 +392,7 @@ export default function AdminPage() {
   const loadMessages = async () => {
     setMessagesLoading(true);
     try {
-      const res = await api.get('/contact');
+      const res = await api.get("/contact");
       if (res.data?.success && Array.isArray(res.data.data)) {
         setMessages(res.data.data);
       }
@@ -380,28 +406,28 @@ export default function AdminPage() {
   const handleMarkAsRead = async (id?: string) => {
     if (!id) return;
     try {
-      const res = await api.put(`/contact/${id}`, { status: 'read' });
+      const res = await api.put(`/contact/${id}`, { status: "read" });
       if (res.data?.success) {
-        showAlert('success', 'Message marked as read.');
+        showAlert("success", "Message marked as read.");
         loadMessages();
       }
     } catch (err: unknown) {
       const errorObj = err as { message?: string };
-      showAlert('error', errorObj.message || 'Failed to update status.');
+      showAlert("error", errorObj.message || "Failed to update status.");
     }
   };
 
   const handleDeleteMessage = async (id?: string) => {
-    if (!id || !confirm('Delete this message permanently?')) return;
+    if (!id || !confirm("Delete this message permanently?")) return;
     try {
       const res = await api.delete(`/contact/${id}`);
       if (res.data?.success) {
-        showAlert('success', 'Message deleted.');
+        showAlert("success", "Message deleted.");
         loadMessages();
       }
     } catch (err: unknown) {
       const errorObj = err as { message?: string };
-      showAlert('error', errorObj.message || 'Failed to delete message.');
+      showAlert("error", errorObj.message || "Failed to delete message.");
     }
   };
 
@@ -418,7 +444,8 @@ export default function AdminPage() {
               Admin Portal
             </h1>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Sign in to manage portfolio content, projects, and contact inquiries.
+              Sign in to manage portfolio content, projects, and contact
+              inquiries.
             </p>
           </div>
 
@@ -461,15 +488,9 @@ export default function AdminPage() {
               disabled={loginLoading}
               className="w-full py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-cyan-500 dark:to-indigo-500 text-white dark:text-slate-950 hover:opacity-95 transition-opacity shadow-md disabled:opacity-50 cursor-pointer"
             >
-              {loginLoading ? 'Authenticating...' : 'Sign In as Admin'}
+              {loginLoading ? "Authenticating..." : "Sign In as Admin"}
             </button>
           </form>
-
-          <div className="pt-4 border-t border-slate-100 dark:border-slate-800 text-center">
-            <p className="text-[11px] font-mono text-slate-400">
-              Default Seed: <span className="text-slate-700 dark:text-slate-300 font-semibold">admin@bibhav.com</span> / <span className="text-slate-700 dark:text-slate-300 font-semibold">admin123456</span>
-            </p>
-          </div>
         </div>
       </div>
     );
@@ -513,12 +534,12 @@ export default function AdminPage() {
         {alert && (
           <div
             className={`mb-6 p-4 rounded-xl text-xs sm:text-sm font-medium flex items-center gap-2.5 ${
-              alert.type === 'success'
-                ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400'
-                : 'bg-red-500/10 border border-red-500/20 text-red-700 dark:text-red-400'
+              alert.type === "success"
+                ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-400"
+                : "bg-red-500/10 border border-red-500/20 text-red-700 dark:text-red-400"
             }`}
           >
-            {alert.type === 'success' ? (
+            {alert.type === "success" ? (
               <CheckCircle className="w-4 h-4 shrink-0" />
             ) : (
               <AlertCircle className="w-4 h-4 shrink-0" />
@@ -530,12 +551,24 @@ export default function AdminPage() {
         {/* Navigation Tabs */}
         <div className="flex flex-wrap gap-2 mb-8">
           {[
-            { id: 'profile', label: 'Profile Details', icon: <User className="w-4 h-4" /> },
-            { id: 'projects', label: 'Projects Management', icon: <FolderGit2 className="w-4 h-4" /> },
-            { id: 'skills', label: 'Skills & Levels', icon: <Cpu className="w-4 h-4" /> },
             {
-              id: 'messages',
-              label: `Contact Inquiries (${messages.filter((m) => m.status === 'unread').length} new)`,
+              id: "profile",
+              label: "Profile Details",
+              icon: <User className="w-4 h-4" />,
+            },
+            {
+              id: "projects",
+              label: "Projects Management",
+              icon: <FolderGit2 className="w-4 h-4" />,
+            },
+            {
+              id: "skills",
+              label: "Skills & Levels",
+              icon: <Cpu className="w-4 h-4" />,
+            },
+            {
+              id: "messages",
+              label: `Contact Inquiries (${messages.filter((m) => m.status === "unread").length} new)`,
               icon: <Mail className="w-4 h-4" />,
             },
           ].map((tab) => {
@@ -546,8 +579,8 @@ export default function AdminPage() {
                 onClick={() => setActiveTab(tab.id as typeof activeTab)}
                 className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 border ${
                   isActive
-                    ? 'bg-indigo-600 text-white border-indigo-600 dark:bg-cyan-500 dark:text-slate-950 dark:border-cyan-500 shadow-md'
-                    : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white'
+                    ? "bg-indigo-600 text-white border-indigo-600 dark:bg-cyan-500 dark:text-slate-950 dark:border-cyan-500 shadow-md"
+                    : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:text-slate-900 dark:hover:text-white"
                 }`}
               >
                 {tab.icon}
@@ -558,7 +591,7 @@ export default function AdminPage() {
         </div>
 
         {/* TAB 1: PROFILE */}
-        {activeTab === 'profile' && (
+        {activeTab === "profile" && (
           <div className="p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm max-w-4xl space-y-6">
             <h2 className="text-xl font-bold text-slate-900 dark:text-white">
               Edit Professional Profile
@@ -574,7 +607,9 @@ export default function AdminPage() {
                     type="text"
                     required
                     value={profile.fullName}
-                    onChange={(e) => setProfile({ ...profile, fullName: e.target.value })}
+                    onChange={(e) =>
+                      setProfile({ ...profile, fullName: e.target.value })
+                    }
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
                   />
                 </div>
@@ -587,7 +622,12 @@ export default function AdminPage() {
                     type="text"
                     required
                     value={profile.professionalTitle}
-                    onChange={(e) => setProfile({ ...profile, professionalTitle: e.target.value })}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        professionalTitle: e.target.value,
+                      })
+                    }
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
                   />
                 </div>
@@ -601,7 +641,9 @@ export default function AdminPage() {
                   rows={2}
                   required
                   value={profile.shortIntro}
-                  onChange={(e) => setProfile({ ...profile, shortIntro: e.target.value })}
+                  onChange={(e) =>
+                    setProfile({ ...profile, shortIntro: e.target.value })
+                  }
                   className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
                 />
               </div>
@@ -614,7 +656,9 @@ export default function AdminPage() {
                   rows={4}
                   required
                   value={profile.aboutDescription}
-                  onChange={(e) => setProfile({ ...profile, aboutDescription: e.target.value })}
+                  onChange={(e) =>
+                    setProfile({ ...profile, aboutDescription: e.target.value })
+                  }
                   className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
                 />
               </div>
@@ -628,7 +672,9 @@ export default function AdminPage() {
                     type="email"
                     required
                     value={profile.email}
-                    onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                    onChange={(e) =>
+                      setProfile({ ...profile, email: e.target.value })
+                    }
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
                   />
                 </div>
@@ -640,7 +686,9 @@ export default function AdminPage() {
                   <input
                     type="text"
                     value={profile.phone}
-                    onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
+                    onChange={(e) =>
+                      setProfile({ ...profile, phone: e.target.value })
+                    }
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
                   />
                 </div>
@@ -652,7 +700,9 @@ export default function AdminPage() {
                   <input
                     type="text"
                     value={profile.location}
-                    onChange={(e) => setProfile({ ...profile, location: e.target.value })}
+                    onChange={(e) =>
+                      setProfile({ ...profile, location: e.target.value })
+                    }
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
                   />
                 </div>
@@ -666,7 +716,9 @@ export default function AdminPage() {
                   <input
                     type="url"
                     value={profile.githubUrl}
-                    onChange={(e) => setProfile({ ...profile, githubUrl: e.target.value })}
+                    onChange={(e) =>
+                      setProfile({ ...profile, githubUrl: e.target.value })
+                    }
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
                   />
                 </div>
@@ -678,7 +730,9 @@ export default function AdminPage() {
                   <input
                     type="url"
                     value={profile.linkedinUrl}
-                    onChange={(e) => setProfile({ ...profile, linkedinUrl: e.target.value })}
+                    onChange={(e) =>
+                      setProfile({ ...profile, linkedinUrl: e.target.value })
+                    }
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
                   />
                 </div>
@@ -693,7 +747,9 @@ export default function AdminPage() {
                   <input
                     type="file"
                     accept="image/png, image/jpeg, image/jpg, image/webp"
-                    onChange={(e) => setProfileImageFile(e.target.files?.[0] || null)}
+                    onChange={(e) =>
+                      setProfileImageFile(e.target.files?.[0] || null)
+                    }
                     className="text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 dark:file:bg-slate-800 file:text-indigo-700 dark:file:text-cyan-400 hover:file:bg-indigo-100"
                   />
                   {profile.profileImage && (
@@ -710,20 +766,24 @@ export default function AdminPage() {
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-indigo-600 dark:bg-cyan-500 text-white dark:text-slate-950 hover:opacity-90 shadow-md cursor-pointer"
               >
                 <Save className="w-4 h-4" />
-                <span>{profileSaving ? 'Saving Changes...' : 'Save Profile Information'}</span>
+                <span>
+                  {profileSaving
+                    ? "Saving Changes..."
+                    : "Save Profile Information"}
+                </span>
               </button>
             </form>
           </div>
         )}
 
         {/* TAB 2: PROJECTS */}
-        {activeTab === 'projects' && (
+        {activeTab === "projects" && (
           <div className="space-y-8">
             {/* Form */}
             <div className="p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm max-w-4xl space-y-6">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-                  {isEditingProject ? 'Edit Project' : 'Add New Project'}
+                  {isEditingProject ? "Edit Project" : "Add New Project"}
                 </h2>
                 {isEditingProject && (
                   <button
@@ -745,7 +805,12 @@ export default function AdminPage() {
                       type="text"
                       required
                       value={projectForm.title}
-                      onChange={(e) => setProjectForm({ ...projectForm, title: e.target.value })}
+                      onChange={(e) =>
+                        setProjectForm({
+                          ...projectForm,
+                          title: e.target.value,
+                        })
+                      }
                       placeholder="Full-Stack MERN Blog Platform"
                       className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
                     />
@@ -783,7 +848,10 @@ export default function AdminPage() {
                     required
                     value={projectForm.shortDescription}
                     onChange={(e) =>
-                      setProjectForm({ ...projectForm, shortDescription: e.target.value })
+                      setProjectForm({
+                        ...projectForm,
+                        shortDescription: e.target.value,
+                      })
                     }
                     placeholder="Brief 1-2 sentence overview for cards"
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
@@ -799,7 +867,10 @@ export default function AdminPage() {
                     required
                     value={projectForm.fullDescription}
                     onChange={(e) =>
-                      setProjectForm({ ...projectForm, fullDescription: e.target.value })
+                      setProjectForm({
+                        ...projectForm,
+                        fullDescription: e.target.value,
+                      })
                     }
                     placeholder="Comprehensive explanation of features, challenges, and architectural decisions"
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
@@ -815,7 +886,10 @@ export default function AdminPage() {
                     required
                     value={projectForm.technologies}
                     onChange={(e) =>
-                      setProjectForm({ ...projectForm, technologies: e.target.value })
+                      setProjectForm({
+                        ...projectForm,
+                        technologies: e.target.value,
+                      })
                     }
                     placeholder="React, TypeScript, Node.js, Express, MongoDB, Tailwind CSS"
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
@@ -831,7 +905,10 @@ export default function AdminPage() {
                       type="url"
                       value={projectForm.githubUrl}
                       onChange={(e) =>
-                        setProjectForm({ ...projectForm, githubUrl: e.target.value })
+                        setProjectForm({
+                          ...projectForm,
+                          githubUrl: e.target.value,
+                        })
                       }
                       placeholder="https://github.com/bob2056/..."
                       className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
@@ -846,7 +923,10 @@ export default function AdminPage() {
                       type="url"
                       value={projectForm.liveUrl}
                       onChange={(e) =>
-                        setProjectForm({ ...projectForm, liveUrl: e.target.value })
+                        setProjectForm({
+                          ...projectForm,
+                          liveUrl: e.target.value,
+                        })
                       }
                       placeholder="https://my-demo-app.com"
                       className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
@@ -860,7 +940,10 @@ export default function AdminPage() {
                     id="featured"
                     checked={projectForm.featured}
                     onChange={(e) =>
-                      setProjectForm({ ...projectForm, featured: e.target.checked })
+                      setProjectForm({
+                        ...projectForm,
+                        featured: e.target.checked,
+                      })
                     }
                     className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500"
                   />
@@ -877,7 +960,11 @@ export default function AdminPage() {
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-indigo-600 dark:bg-cyan-500 text-white dark:text-slate-950 hover:opacity-90 shadow-md cursor-pointer"
                 >
                   <Plus className="w-4 h-4" />
-                  <span>{isEditingProject ? 'Update Project' : 'Add Project to Portfolio'}</span>
+                  <span>
+                    {isEditingProject
+                      ? "Update Project"
+                      : "Add Project to Portfolio"}
+                  </span>
                 </button>
               </form>
             </div>
@@ -937,11 +1024,11 @@ export default function AdminPage() {
         )}
 
         {/* TAB 3: SKILLS */}
-        {activeTab === 'skills' && (
+        {activeTab === "skills" && (
           <div className="space-y-8">
             <div className="p-8 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/70 backdrop-blur-sm max-w-2xl space-y-6">
               <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-                {skillForm._id ? 'Edit Skill' : 'Add New Skill'}
+                {skillForm._id ? "Edit Skill" : "Add New Skill"}
               </h2>
 
               <form onSubmit={handleSkillSubmit} className="space-y-4">
@@ -954,7 +1041,9 @@ export default function AdminPage() {
                       type="text"
                       required
                       value={skillForm.name}
-                      onChange={(e) => setSkillForm({ ...skillForm, name: e.target.value })}
+                      onChange={(e) =>
+                        setSkillForm({ ...skillForm, name: e.target.value })
+                      }
                       placeholder="e.g. Next.js"
                       className="w-full px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm"
                     />
@@ -978,7 +1067,9 @@ export default function AdminPage() {
                       <option value="Backend">Backend</option>
                       <option value="Database">Database</option>
                       <option value="Programming">Programming</option>
-                      <option value="AI / Machine Learning">AI / Machine Learning</option>
+                      <option value="AI / Machine Learning">
+                        AI / Machine Learning
+                      </option>
                       <option value="Tools">Tools</option>
                       <option value="DevOps">DevOps</option>
                     </select>
@@ -997,7 +1088,10 @@ export default function AdminPage() {
                     max="100"
                     value={skillForm.level}
                     onChange={(e) =>
-                      setSkillForm({ ...skillForm, level: Number(e.target.value) })
+                      setSkillForm({
+                        ...skillForm,
+                        level: Number(e.target.value),
+                      })
                     }
                     className="w-full accent-indigo-600 dark:accent-cyan-400"
                   />
@@ -1008,7 +1102,7 @@ export default function AdminPage() {
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-xs bg-indigo-600 dark:bg-cyan-500 text-white dark:text-slate-950 hover:opacity-90 shadow-md cursor-pointer"
                 >
                   <Plus className="w-3.5 h-3.5" />
-                  <span>{skillForm._id ? 'Update Skill' : 'Add Skill'}</span>
+                  <span>{skillForm._id ? "Update Skill" : "Add Skill"}</span>
                 </button>
               </form>
             </div>
@@ -1043,7 +1137,7 @@ export default function AdminPage() {
         )}
 
         {/* TAB 4: CONTACT MESSAGES */}
-        {activeTab === 'messages' && (
+        {activeTab === "messages" && (
           <div className="space-y-4">
             <h2 className="text-xl font-bold text-slate-900 dark:text-white">
               Recruiter & Inbound Contact Messages ({messages.length})
@@ -1052,7 +1146,9 @@ export default function AdminPage() {
             {messages.length === 0 ? (
               <div className="text-center py-16 px-4 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800">
                 <Mail className="w-10 h-10 text-slate-400 mx-auto mb-2" />
-                <p className="text-sm text-slate-500">No contact messages received yet.</p>
+                <p className="text-sm text-slate-500">
+                  No contact messages received yet.
+                </p>
               </div>
             ) : (
               <div className="space-y-3">
@@ -1060,9 +1156,9 @@ export default function AdminPage() {
                   <div
                     key={m._id}
                     className={`p-6 rounded-2xl border transition-all ${
-                      m.status === 'unread'
-                        ? 'border-indigo-500/50 dark:border-cyan-500/50 bg-indigo-50/20 dark:bg-cyan-950/20 shadow-sm'
-                        : 'border-slate-200/80 dark:border-slate-800/80 bg-white/70 dark:bg-slate-900/60'
+                      m.status === "unread"
+                        ? "border-indigo-500/50 dark:border-cyan-500/50 bg-indigo-50/20 dark:bg-cyan-950/20 shadow-sm"
+                        : "border-slate-200/80 dark:border-slate-800/80 bg-white/70 dark:bg-slate-900/60"
                     }`}
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
@@ -1073,9 +1169,9 @@ export default function AdminPage() {
                           </h4>
                           <span
                             className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold ${
-                              m.status === 'unread'
-                                ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
-                                : 'bg-slate-100 dark:bg-slate-800 text-slate-500'
+                              m.status === "unread"
+                                ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                                : "bg-slate-100 dark:bg-slate-800 text-slate-500"
                             }`}
                           >
                             {m.status}
@@ -1095,7 +1191,7 @@ export default function AdminPage() {
                             {formatDate(m.createdAt)}
                           </span>
                         )}
-                        {m.status === 'unread' && (
+                        {m.status === "unread" && (
                           <button
                             onClick={() => handleMarkAsRead(m._id)}
                             className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-emerald-600"
