@@ -30,21 +30,13 @@ export const submitContact = async (
       status: "unread",
     });
 
-    try {
-      await sendContactEmail({ name, email, subject, message });
-    } catch (error) {
+    void sendContactEmail({ name, email, subject, message }).catch((error) => {
       console.error("[Contact] Email delivery failed:", error);
-      res.status(503).json({
-        success: false,
-        message:
-          "Your message was saved, but could not be emailed. Please try again later.",
-      });
-      return;
-    }
+    });
 
     res.status(201).json({
       success: true,
-      message: "Your message has been sent successfully.",
+      message: "Your message was received successfully.",
       data: {
         id: contact._id,
         name: contact.name,

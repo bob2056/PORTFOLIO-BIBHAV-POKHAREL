@@ -175,7 +175,7 @@ export const Contact: React.FC = () => {
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <h4 className="text-lg font-bold text-slate-900 dark:text-white">
-                  Message Sent Successfully!
+                  Message Received!
                 </h4>
                 <p className="text-sm text-slate-600 dark:text-slate-300">
                   Your message has been sent. I will get back to you as soon as
