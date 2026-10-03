@@ -406,7 +406,7 @@ export default function AdminPage() {
   const handleMarkAsRead = async (id?: string) => {
     if (!id) return;
     try {
-      const res = await api.put(`/contact/${id}`, { status: "read" });
+      const res = await api.put(`/contact/${id}/status`, { status: "read" });
       if (res.data?.success) {
         showAlert("success", "Message marked as read.");
         loadMessages();
