@@ -13,9 +13,11 @@ export const sendContactEmail = async ({
   subject,
   message,
 }: ContactEmail): Promise<void> => {
-  const host = process.env.SMTP_HOST;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
+  const host = process.env.SMTP_HOST?.trim();
+  const user = process.env.SMTP_USER?.trim();
+  const pass = process.env.SMTP_PASS?.replace(/\s/g, "");
+  const recipient =
+    process.env.CONTACT_EMAIL?.trim() || "bibhav.bale@gmail.com";
 
   if (!host || !user || !pass) {
     throw new Error("SMTP_HOST, SMTP_USER, and SMTP_PASS must be configured");
@@ -31,13 +33,20 @@ export const sendContactEmail = async ({
     port,
     secure: process.env.SMTP_SECURE === "true",
     auth: { user, pass },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 20000,
   });
 
-  await transporter.sendMail({
+  const result = await transporter.sendMail({
     from: { name: "Portfolio Contact Form", address: user },
-    to: process.env.CONTACT_EMAIL || "bibhav.bale@gmail.com",
+    to: recipient,
     replyTo: email,
     subject: `Portfolio contact: ${subject}`,
     text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n${message}`,
   });
+
+  console.info(
+    `[Contact] Email accepted by SMTP. Message ID: ${result.messageId}`,
+  );
 };
